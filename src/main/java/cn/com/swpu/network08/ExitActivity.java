@@ -22,7 +22,7 @@ public class ExitActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "ÌáÊ¾£ºµã»÷´°¿ÚÍâ²¿¹Ø±Õ´°¿Ú£¡", 
+				Toast.makeText(getApplicationContext(), "退出分享", 
 						Toast.LENGTH_SHORT).show();	
 			}
 		});
