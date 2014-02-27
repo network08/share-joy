@@ -1,8 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/splash"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/tab_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_bar"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/tab_home"
+            style="@style/tab_rb_style"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_selector_home"
+            android:text="@string/homepage" />
+
+        <RadioButton
+            android:id="@+id/tab_funny"
+            style="@style/tab_rb_style"
+            android:drawableTop="@drawable/tab_selector_funny"
+            android:text="@string/funny" />
+
+        <RadioButton
+            android:id="@+id/tab_me"
+            style="@style/tab_rb_style"
+            android:drawableTop="@drawable/tab_selector_me"
+            android:text="@string/me" />
+
+        <RadioButton
+            android:id="@+id/tab_more"
+            style="@style/tab_rb_style"
+            android:drawableTop="@drawable/tab_selector_more"
+            android:text="@string/more" />
+    </RadioGroup>
+
+    <android.support.v4.app.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
+    </android.support.v4.app.FragmentTabHost>
 
 </LinearLayout>

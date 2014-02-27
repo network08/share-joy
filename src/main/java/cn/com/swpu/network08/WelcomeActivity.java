@@ -11,7 +11,7 @@ public class WelcomeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.main);
+        setContentView(R.layout.welcome);
         
         final Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
         //系统会为需要启动的activity寻找与当前activity不同的task;
