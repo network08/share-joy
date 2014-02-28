@@ -16,7 +16,7 @@ public class MoreFragment extends Fragment implements OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View messageLayout = inflater.inflate(R.layout.me_fragment_layout,
+		View messageLayout = inflater.inflate(R.layout.more_fragment_layout,
 				container, false);
 		return messageLayout;
 	}

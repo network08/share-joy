@@ -1,15 +1,15 @@
-package cn.com.swpu.network08.converter;
+/*package cn.com.swpu.network08.converter;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-/**
+*//**
  * 
  * @author franklin.li
  *
- */
+ *//*
 public class ObjectMapperFactory {
 	private ObjectMapper mapper;
 
@@ -31,3 +31,4 @@ public class ObjectMapperFactory {
 		this.mapper = mapper;
 	}
 }
+*/

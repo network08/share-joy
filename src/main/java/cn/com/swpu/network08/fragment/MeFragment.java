@@ -1,24 +1,39 @@
 package cn.com.swpu.network08.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import cn.com.swpu.network08.R;
 import cn.com.swpu.network08.model.User;
 
+/**
+ * 
+ * @author xkk
+ *
+ */
 public class MeFragment extends Fragment implements OnClickListener{
 	Button saveBtn;
 	EditText emailEt;
 	EditText phoneEt;
 	EditText nameEt;
-	ImageView myImg;
+	ImageButton myImg;
+	private static int RESULT_LOAD_IMAGE = 1;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -28,10 +43,26 @@ public class MeFragment extends Fragment implements OnClickListener{
 		emailEt = (EditText)messageLayout.findViewById(R.id.me_email);
 		phoneEt = (EditText)messageLayout.findViewById(R.id.me_phone);
 		nameEt = (EditText)messageLayout.findViewById(R.id.me_nickname);
-		myImg = (ImageView)messageLayout.findViewById(R.id.me_img);
+		myImg = (ImageButton)messageLayout.findViewById(R.id.me_img_btn);
 		saveBtn.setOnClickListener(this);
 		
+		loadUserInfo();
 		return messageLayout;
+	}
+	
+	private void loadUserInfo(){
+		phoneEt.setText(getPhoneNum());
+	}
+	
+	private String getPhoneNum(){
+		String phone = null;
+		Object o = getActivity(). getSystemService(Context.TELEPHONY_SERVICE);
+		if(o != null){
+			TelephonyManager tm = (TelephonyManager)o;
+			phone =  tm.getLine1Number();
+		}
+		
+		return phone; 
 	}
 
 	@Override
@@ -40,14 +71,34 @@ public class MeFragment extends Fragment implements OnClickListener{
 		case R.id.me_save_btn:
 			Toast.makeText(getActivity(), "edit userinfo", Toast.LENGTH_SHORT).show();	
 			break;
-		case R.id.me_img:
-			Toast.makeText(getActivity(), "upload a head portrait", Toast.LENGTH_SHORT).show();	
+		case R.id.me_img_btn:
+			Intent i = new Intent(
+					Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			startActivityForResult(i, RESULT_LOAD_IMAGE);
 			break;
 		default:
 			break;
 		}
-
 	}
+	
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	Toast.makeText(getActivity(), "requestCode:"+requestCode+" resultCode:"+resultCode, Toast.LENGTH_SHORT).show();	
+		if (requestCode == RESULT_LOAD_IMAGE && resultCode == -1 && null != data) {
+			Uri selectedImage = data.getData();
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+					filePathColumn, null, null, null);
+			cursor.moveToFirst();
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			String picturePath = cursor.getString(columnIndex);
+			cursor.close();
+			myImg.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+		}
+    }
+    
 	private User getUserDataFromUI(){  
 		User user = new User(); 
 		user.setEmail(emailEt.getText().toString());

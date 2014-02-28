@@ -21,14 +21,18 @@ import cn.com.swpu.network08.fragment.FunnyFragment;
 import cn.com.swpu.network08.fragment.HomeFragment;
 import cn.com.swpu.network08.fragment.MoreFragment;
 import cn.com.swpu.network08.fragment.MeFragment;
-
-public class MainActivity extends FragmentActivity {
-	// 定义FragmentTabHost对象
+/**
+ * 
+ * @author xkk
+ *
+ */
+public class MainNavigatePage extends FragmentActivity {
 	private FragmentTabHost mTabHost;
 	private RadioGroup mTabRg;
 	private ViewPager mViewPage;
 	TabsAdapter mTabsAdapter;
-	public static MainActivity instance;
+	public static MainNavigatePage instance;
+	@SuppressWarnings("rawtypes")
 	private final Class[] fragments = { HomeFragment.class, FunnyFragment.class,
 			MeFragment.class, MoreFragment.class };
 
@@ -43,26 +47,19 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initView() {
-
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager());
 		mViewPage = (ViewPager) findViewById(R.id.pager);
 		mTabRg = (RadioGroup) findViewById(R.id.tab_menu);
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPage, mTabRg);
-		// 得到fragment的个数
 		int count = fragments.length;
 		for (int i = 0; i < count; i++) {
-			// 为每一个Tab按钮设置图标、文字和内容
 			TabSpec tabSpec = mTabHost.newTabSpec(i + "").setIndicator(i + "");
-			// 将Tab按钮添加进Tab选项卡中
 			mTabHost.addTab(tabSpec, fragments[i], null);
-
 			mTabsAdapter.addTab(mTabHost.newTabSpec(i + "")
 					.setIndicator(i + ""), fragments[i], null);
 		}
-
 		mTabRg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
@@ -71,17 +68,13 @@ public class MainActivity extends FragmentActivity {
 					break;
 				case R.id.tab_funny:
 					mTabHost.setCurrentTab(1);
-
 					break;
 				case R.id.tab_me:
-
 					mTabHost.setCurrentTab(2);
 					break;
 				case R.id.tab_more:
-
 					mTabHost.setCurrentTab(3);
 					break;
-
 				default:
 					break;
 				}
@@ -95,7 +88,6 @@ public class MainActivity extends FragmentActivity {
 		super.onSaveInstanceState(outState);
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 	}
-
 
 	/**
 	 * This is a helper class that implements the management of tabs and all
@@ -117,10 +109,10 @@ public class MainActivity extends FragmentActivity {
 		private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
 		static final class TabInfo {
+			@SuppressWarnings("unused")
 			private final String tag;
 			private final Class<?> clss;
 			private final Bundle args;
-
 			TabInfo(String _tag, Class<?> _class, Bundle _args) {
 				tag = _tag;
 				clss = _class;
@@ -130,11 +122,9 @@ public class MainActivity extends FragmentActivity {
 
 		static class DummyTabFactory implements TabHost.TabContentFactory {
 			private final Context mContext;
-
 			public DummyTabFactory(Context context) {
 				mContext = context;
 			}
-
 			@Override
 			public View createTabContent(String tag) {
 				View v = new View(mContext);
@@ -159,7 +149,6 @@ public class MainActivity extends FragmentActivity {
 		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
 			tabSpec.setContent(new DummyTabFactory(mContext));
 			String tag = tabSpec.getTag();
-
 			TabInfo info = new TabInfo(tag, clss, args);
 			mTabs.add(info);
 			mTabHost.addTab(tabSpec);
@@ -192,11 +181,6 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public void onPageSelected(int position) {
-			// Unfortunately when TabHost changes the current tab, it kindly
-			// also takes care of putting focus on it when not in touch mode.
-			// The jerk.
-			// This hack tries to prevent this from pulling focus out of our
-			// ViewPager.
 			TabWidget widget = mTabHost.getTabWidget();
 			int oldFocusability = widget.getDescendantFocusability();
 			widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
