@@ -20,7 +20,7 @@ import android.widget.TabWidget;
 import cn.com.swpu.network08.fragment.FunnyFragment;
 import cn.com.swpu.network08.fragment.HomeFragment;
 import cn.com.swpu.network08.fragment.MoreFragment;
-import cn.com.swpu.network08.fragment.UserFragment;
+import cn.com.swpu.network08.fragment.MeFragment;
 
 public class MainActivity extends FragmentActivity {
 	// 定义FragmentTabHost对象
@@ -30,7 +30,7 @@ public class MainActivity extends FragmentActivity {
 	TabsAdapter mTabsAdapter;
 	public static MainActivity instance;
 	private final Class[] fragments = { HomeFragment.class, FunnyFragment.class,
-			UserFragment.class, MoreFragment.class };
+			MeFragment.class, MoreFragment.class };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
