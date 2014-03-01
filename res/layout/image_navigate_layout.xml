@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_marginTop="20.0dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="3dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/image_navigate_title"
+            android:textColor="@android:color/black"
+            android:textSize="19.0sp"
+            tools:ignore="HardcodedText,InefficientWeight" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1.0px"
+        android:background="@drawable/shape_line" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30.0dip"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <RelativeLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:ignore="UselessParent" >
+
+            <ImageButton
+                android:id="@+id/img_navi_pic_btn"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_pic_storage"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout >
+                <RelativeLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:ignore="UselessParent" >
+
+<ImageButton
+                 android:id="@+id/img_navi_cam_btn"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_camera"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout >
+        
+    </LinearLayout>
+
+</LinearLayout>
