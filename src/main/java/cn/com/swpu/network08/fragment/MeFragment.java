@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 import cn.com.swpu.network08.R;
 import cn.com.swpu.network08.db.ImageSqliteService;
 import cn.com.swpu.network08.model.Image;
@@ -34,12 +32,20 @@ public class MeFragment extends Fragment implements OnClickListener{
 	EditText nameEt;
 	ImageButton myImgBtn;
 	private static final int CAMERA_OPTION = 1;
+	private static final String myLogo = "myLogo";
 	private ImageSqliteService imageSqliteService;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View messageLayout = inflater.inflate(R.layout.me_fragment_layout,
 				container, false);
+
+		imageSqliteService = new ImageSqliteService(getActivity());
+		Image img = imageSqliteService.read(ImageSqliteService.QUERY_BY_NAME, new String[]{myLogo});
+		if(img != null && img.getImage() != null){
+			myImgBtn.setImageBitmap(ImageUtil.byte2Bitmap(img.getImage()));
+		}
+
 		saveBtn = (Button)messageLayout.findViewById(R.id.me_save_btn);
 		myImgBtn = (ImageButton)messageLayout.findViewById(R.id.me_img_btn);
 		emailEt = (EditText)messageLayout.findViewById(R.id.me_email);
@@ -72,9 +78,8 @@ public class MeFragment extends Fragment implements OnClickListener{
 		Intent intent = null;
 		switch (v.getId()) {
 		case R.id.me_save_btn:
-			Image img = new Image("myLogo", 
-					ImageUtil.BitMap2Byte(BitmapFactory.decodeResource(getResources(), 
-							R.drawable.add_my_img)));
+			Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.add_my_img);
+			Image img = new Image(myLogo, ImageUtil.BitMap2Byte(bitmap));
 			imageSqliteService.insert(img);
 			break;
 		case R.id.me_img_btn:
@@ -85,7 +90,7 @@ public class MeFragment extends Fragment implements OnClickListener{
 			break;
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
