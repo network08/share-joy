@@ -15,9 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import cn.com.swpu.network08.R;
+import cn.com.swpu.network08.db.ImageSqliteService;
+import cn.com.swpu.network08.model.Image;
 import cn.com.swpu.network08.model.User;
+import cn.com.swpu.network08.util.ImageUtil;
 /**
  * 
  * @author xkk
@@ -30,6 +34,7 @@ public class MeFragment extends Fragment implements OnClickListener{
 	EditText nameEt;
 	ImageButton myImgBtn;
 	private static final int CAMERA_OPTION = 1;
+	private ImageSqliteService imageSqliteService;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -67,7 +72,10 @@ public class MeFragment extends Fragment implements OnClickListener{
 		Intent intent = null;
 		switch (v.getId()) {
 		case R.id.me_save_btn:
-			Toast.makeText(getActivity(), "edit userinfo", Toast.LENGTH_SHORT).show();	
+			Image img = new Image("myLogo", 
+					ImageUtil.BitMap2Byte(BitmapFactory.decodeResource(getResources(), 
+							R.drawable.add_my_img)));
+			imageSqliteService.insert(img);
 			break;
 		case R.id.me_img_btn:
 			intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -17,7 +17,7 @@ public class FunnyFragment extends Fragment implements OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View messageLayout = inflater.inflate(R.layout.funny_fragment_layout,
+		View messageLayout = inflater.inflate(R.layout.image_navigate_layout,
 				container, false);
 		return messageLayout;
 	}

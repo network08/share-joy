@@ -56,7 +56,7 @@
 	<string name="edit">编辑</string>
 	<string name="save">保存</string>
 	<string name="submit">提交</string>
-	<string name="image_navigate_title">从图库或者拍摄一张图片</string>
+	<string name="image_navigate_title">制作趣味图片</string>
 	<string name="take_a_pic">拍照</string>
 	<string name="get_pic_from_storage">从图库获取</string>
 </resources>
