@@ -34,9 +34,12 @@ public class ImageSqliteService {
 			db = databaseHelper.getReadableDatabase();
 			Cursor cursor = db.rawQuery(sql, name);
 			if(cursor != null && cursor.moveToFirst()){
-				img = new Image();
-				img.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
-				img.setImage(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.KEY_IMAGE))); 
+				do{
+					img = new Image();
+					img.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
+					img.setImage(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.KEY_IMAGE)));	
+				}while (cursor.isLast());
+				 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
