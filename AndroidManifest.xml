@@ -24,7 +24,8 @@
         <!-- created by xkk at 2014-03-01 13:39:19 -->
         <activity android:name="cn.com.swpu.network08.MainNavigatePage" />
     </application>
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -72,12 +73,14 @@
     </uses-permission>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-	<!-- 相机 -->
-	<uses-permission android:name="android.permission.CAMERA" />
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="false"
         android:resizeable="true"
         android:smallScreens="true" />
+
 </manifest>

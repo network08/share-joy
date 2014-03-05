@@ -18,9 +18,9 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import cn.com.swpu.network08.fragment.FunnyFragment;
+import cn.com.swpu.network08.fragment.HomeFragment;
 import cn.com.swpu.network08.fragment.MeFragment;
 import cn.com.swpu.network08.fragment.MoreFragment;
-import cn.com.swpu.network08.map.BasicMapFragment;
 /**
  * 
  * @author xkk
@@ -33,7 +33,7 @@ public class MainNavigatePage extends FragmentActivity {
 	TabsAdapter mTabsAdapter;
 	public static MainNavigatePage instance;
 	@SuppressWarnings("rawtypes")
-	private final Class[] fragments = { BasicMapFragment.class, FunnyFragment.class,
+	private final Class[] fragments = { HomeFragment.class, FunnyFragment.class,
 			MeFragment.class, MoreFragment.class };
 
 	@Override
