@@ -1,5 +1,8 @@
 package cn.com.swpu.network08.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +14,9 @@ public class ImageSqliteService {
 	private SQLiteDatabase db;
 	private static String [] imageColums = new String[]{DatabaseHelper.KEY_ID, DatabaseHelper.KEY_NAME, DatabaseHelper.KEY_CODE, DatabaseHelper.KEY_IMAGE};
 	public static final String QUERY_BY_NAME = "select * from "+DatabaseHelper.TABLE_IMAGE+" where name=?";
+	
+	public static final String QUERY_BY_DATE = "select * from " + DatabaseHelper.TABLE_IMAGE+ " where date <= ?";
+	
 	public ImageSqliteService(Context context) {
 		databaseHelper = new DatabaseHelper(context);
 	}
@@ -23,9 +29,28 @@ public class ImageSqliteService {
 			//cv.put(DatabaseHelper.KEY_ID, img.getId());
 			cv.put(DatabaseHelper.KEY_NAME, img.getName());
 			cv.put(DatabaseHelper.KEY_CODE, img.getName());
-			cv.put(DatabaseHelper.KEY_IMAGE, img.getImage());
+			//cv.put(DatabaseHelper.KEY_IMAGE, img.getImage());
 			return db.insert(DatabaseHelper.TABLE_IMAGE, null, cv);
 		}
+	}
+	
+	public List<Image> read(java.util.Date deadline){
+		List<Image> dataImages = new ArrayList<Image>();
+		
+		Cursor cursor = QueryData(deadline);
+		if (null != cursor && cursor.moveToNext()){
+			Image img = new Image();
+			img.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
+			img.setImage(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.KEY_IMAGE)));
+			img.setDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_DATE)));
+			dataImages.add(img);
+		}
+		return dataImages;
+	}
+	
+	private Cursor QueryData(java.util.Date deadline){
+
+		return db.rawQuery(QUERY_BY_DATE, new String[]{deadline.toString()});
 	}
 
 	public Image read(String sql, String[] name){
@@ -38,6 +63,7 @@ public class ImageSqliteService {
 					img = new Image();
 					img.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
 					img.setImage(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.KEY_IMAGE)));	
+					img.setDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_DATE)));
 				}while (cursor.isLast());
 				 
 			}

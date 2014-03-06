@@ -1,6 +1,6 @@
 package cn.com.swpu.network08.ctrl;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,22 +12,45 @@ public class DataController {
 	private List<Image> mHistory = null;
 	private int mCurIndex;
 	private ImageSqliteService mImageReader = null;
-	private Context context = null;
-	private Date mCurDate = null;
 	
+	private static DataController mInstance = null;
 	
-	public DataController(){
+	public static boolean Initialize(Context context, java.util.Date deadline){
+		mInstance = new DataController(context);
+		mInstance.LoadHistory(deadline);
+		return true;
+	}
+	
+	public static DataController Data(){
+		return mInstance;
+	}
+	
+	private DataController(Context context){
 		mCurIndex = 0;
 		mHistory = new ArrayList<Image>();
 		mImageReader = new ImageSqliteService(context);
 	}
 	
+	
 	public boolean LoadHistory(Date deadline){
+		
+		mHistory.clear();
+		mHistory = mImageReader.read(deadline);
+		
 		return true;
 	}
 	
-	public Image GetLast(){
-		--mCurIndex;
+	public Image GetBefore(){
+		if(mCurIndex > 0){
+			--mCurIndex;	
+		}
+		return mHistory.get(mCurIndex);
+	}
+	
+	public Image GetAfter(){
+		if (mCurIndex < (mHistory.size() - 1)){
+			++mCurIndex;
+		}
 		return mHistory.get(mCurIndex);
 	}
 }

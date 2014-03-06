@@ -1,5 +1,7 @@
 package cn.com.swpu.network08.fragment;
 
+import java.util.Date;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -79,7 +81,7 @@ public class MeFragment extends Fragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.me_save_btn:
 			Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.add_my_img);
-			Image img = new Image(myLogo, ImageUtil.BitMap2Byte(bitmap));
+			Image img = new Image(myLogo, ImageUtil.BitMap2Byte(bitmap), new Date());
 			imageSqliteService.insert(img);
 			break;
 		case R.id.me_img_btn:
