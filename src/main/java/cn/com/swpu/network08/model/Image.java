@@ -15,7 +15,7 @@ public class Image {
 	private byte[] 			image;
 	private java.util.Date	date;
 	private static final String FORMAT_DATE = "yyyy-mm-dd HH:mm:ss";
-	
+
 	public Image(){
 	}
 	public Image(String name, byte[] image, java.util.Date date) {
@@ -48,7 +48,7 @@ public class Image {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public void setDate(String strDate){
 		SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATE); 
 		try {
@@ -57,11 +57,11 @@ public class Image {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String getDateString(){
 		SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATE); 
 		String strDate = formatter.format(date);
 		return strDate;
 	}
-	
+
 }

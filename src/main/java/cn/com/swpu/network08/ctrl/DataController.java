@@ -1,13 +1,17 @@
 package cn.com.swpu.network08.ctrl;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import cn.com.swpu.network08.db.*;
-import cn.com.swpu.network08.model.*;
+import cn.com.swpu.network08.db.ImageSqliteService;
+import cn.com.swpu.network08.model.Image;
 
+/**
+ * 
+ * @author hq
+ *
+ */
 public class DataController {
 	private List<Image> mHistory = null;
 	private int mCurIndex;
@@ -15,7 +19,7 @@ public class DataController {
 	
 	private static DataController mInstance = null;
 	
-	public static boolean Initialize(Context context, java.util.Date deadline){
+	public static boolean Initialize(Context context, long deadline){
 		mInstance = new DataController(context);
 		mInstance.LoadHistory(deadline);
 		return true;
@@ -32,7 +36,7 @@ public class DataController {
 	}
 	
 	
-	public boolean LoadHistory(Date deadline){
+	public boolean LoadHistory(long deadline){
 		
 		mHistory.clear();
 		mHistory = mImageReader.read(deadline);

@@ -36,8 +36,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		String createTableImage = "Create table " + TABLE_IMAGE + 
 				"(" + KEY_ID + " integer primary key autoincrement," 
 				+ KEY_NAME + " text,"
+//				+ KEY_CODE + " text,"
 				+ KEY_IMAGE + " BLOB,"
-				+ KEY_DATE + " varchar(50)"
+				+ KEY_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
 				+ " );";
 		db.execSQL(createTableUser);
 		db.execSQL(createTableImage);

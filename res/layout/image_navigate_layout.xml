@@ -36,7 +36,7 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <RelativeLayout 
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -48,21 +48,28 @@
                 android:layout_height="100dp"
                 android:src="@drawable/ic_pic_storage"
                 tools:ignore="ContentDescription" />
-        </RelativeLayout >
-                <RelativeLayout 
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:ignore="UselessParent" >
 
-<ImageButton
-                 android:id="@+id/img_navi_cam_btn"
+            <ImageButton
+                android:id="@+id/img_navi_cam_btn"
                 android:layout_width="120dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ic_camera"
                 tools:ignore="ContentDescription" />
-        </RelativeLayout >
-        
+        </RelativeLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/fun_image_test_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.66"
+        android:src="@drawable/empty_photo" />
 
 </LinearLayout>

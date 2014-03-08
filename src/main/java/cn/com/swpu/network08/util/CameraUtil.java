@@ -15,6 +15,11 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
+/**
+ * 
+ * @author hq
+ *
+ */
 public class CameraUtil {
 	static CameraUtil m_instance;
 	static final String TAG = "CameraUtil";

@@ -2,14 +2,11 @@ package cn.com.swpu.network08.util;
 
 
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -79,7 +76,7 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final String url = getItem(position);
+		final String name = getItem(position);
 		View view;
 		if (convertView == null) {
 			view = LayoutInflater.from(getContext()).inflate(R.layout.image_detail_layout, null);
@@ -88,8 +85,8 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 		}
 		final ImageView photo = (ImageView) view.findViewById(R.id.image_detail_view);
 		// 给ImageView设置一个Tag，保证异步加载图片时不会乱序
-		photo.setTag(url);
-		setImageView(url, photo);
+		photo.setTag(name);
+		setImageView(name, photo);
 		return view;
 	}
 
@@ -129,7 +126,7 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 	 * 从LruCache中获取一张图片，如果不存在就返回null。
 	 * 
 	 * @param key
-	 *            LruCache的键，这里传入图片的URL地址。
+	 *            LruCache的键，这里传入图片的名称。
 	 * @return 对应传入键的Bitmap对象，或者null。
 	 */
 	public Bitmap getBitmapFromMemoryCache(String key) {
@@ -171,14 +168,15 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 	private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
 		try {
 			for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
-				String imageUrl = Images.imageThumbUrls[i];
-				Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+//				String imageUrl = Images.imageThumbUrls[i];
+				String imageName = null;//TODO:从数据库查出图片的名称列表，进行加载。
+				Bitmap bitmap = getBitmapFromMemoryCache(imageName);
 				if (bitmap == null) {
 					BitmapWorkerTask task = new BitmapWorkerTask();
 					taskCollection.add(task);
-					task.execute(imageUrl);
+					task.execute(imageName);
 				} else {
-					ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+					ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageName);
 					if (imageView != null && bitmap != null) {
 						imageView.setImageBitmap(bitmap);
 					}
@@ -206,19 +204,11 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 	 * @author guolin
 	 */
 	class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
-
-		/**
-		 * 图片的URL地址
-		 */
-		private String imageUrl;
-
 		@Override
 		protected Bitmap doInBackground(String... params) {
-			imageUrl = params[0];
-			// 在后台开始下载图片
-			Bitmap bitmap = downloadBitmap(params[0]);
+			// 在后台开始查询图片
+			Bitmap bitmap = queryBitmap(params[0]);
 			if (bitmap != null) {
-				// 图片下载完成后缓存到LrcCache中
 				addBitmapToMemoryCache(params[0], bitmap);
 			}
 			return bitmap;
@@ -228,7 +218,7 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 		protected void onPostExecute(Bitmap bitmap) {
 			super.onPostExecute(bitmap);
 			// 根据Tag找到相应的ImageView控件，将下载好的图片显示出来。
-			ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+			ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(DateUtil.getUTC());
 			if (imageView != null && bitmap != null) {
 				imageView.setImageBitmap(bitmap);
 			}
@@ -236,29 +226,16 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 		}
 
 		/**
-		 * 建立HTTP请求，并获取Bitmap对象。
+		 * 从数据库中取出图片进行首页预览。
 		 * 
-		 * @param imageUrl
-		 *            图片的URL地址
-		 * @return 解析后的Bitmap对象
 		 */
-		private Bitmap downloadBitmap(String imageUrl) {
+		private Bitmap queryBitmap(String name) {
 			Bitmap bitmap = null;
-			HttpURLConnection con = null;
 			try {
-				URL url = new URL(imageUrl);
-				con = (HttpURLConnection) url.openConnection();
-				con.setConnectTimeout(5 * 1000);
-				con.setReadTimeout(10 * 1000);
-				con.setDoInput(true);
-				con.setDoOutput(true);
-				bitmap = BitmapFactory.decodeStream(con.getInputStream());
+				//TODO: 根据名称查询 或者根据时间anyway
+				
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				if (con != null) {
-					con.disconnect();
-				}
 			}
 			return bitmap;
 		}
