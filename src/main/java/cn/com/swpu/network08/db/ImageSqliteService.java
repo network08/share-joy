@@ -35,22 +35,6 @@ public class ImageSqliteService {
 		}
 	}
 	
-	public List<Image> readTestFunc(){
-		db = databaseHelper.getReadableDatabase();
-		List<Image> imgList = new ArrayList<Image>();
-		Cursor cursor = db.rawQuery("select * from image ", null);
-		if(cursor != null){
-			while (cursor.moveToNext()) {
-				Image img = new Image();
-				img.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME)));
-				img.setImage(cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.KEY_IMAGE)));
-//				img.setDate(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.KEY_DATE)));
-				imgList.add(img);
-			}
-		}
-		return imgList;
-	}
-	
 	public List<Image> read(long deadline){
 		db = databaseHelper.getReadableDatabase();
 		List<Image> dataImages = new ArrayList<Image>();

@@ -65,11 +65,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/fun_image_test_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.66"
-        android:src="@drawable/empty_photo" />
-
 </LinearLayout>

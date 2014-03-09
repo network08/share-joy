@@ -56,7 +56,12 @@
 	<string name="edit">编辑</string>
 	<string name="save">保存</string>
 	<string name="submit">提交</string>
-	<string name="image_navigate_title">制作趣味图片</string>
+	<string name="image_navigate_title">趣味图片制作</string>
 	<string name="take_a_pic">拍照</string>
 	<string name="get_pic_from_storage">从图库获取</string>
+	
+	<string name="drawer_open">打开图片处理菜单</string>
+    <string name="drawer_close">关闭图片处理菜单</string>
+    <string name="action_websearch">搜索</string>
+    <string name="app_not_available">找不到应用</string>
 </resources>

@@ -23,6 +23,7 @@ import cn.com.swpu.network08.R;
  * 
  * @author franklin.li
  *
+ * this class used for loading images in gridview
  */
 public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollListener{
 
