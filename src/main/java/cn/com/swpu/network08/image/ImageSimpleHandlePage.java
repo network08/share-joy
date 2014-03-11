@@ -1,7 +1,5 @@
 package cn.com.swpu.network08.image;
 
-import com.baidu.a.a.b.b;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -192,6 +190,7 @@ public class ImageSimpleHandlePage extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.image_simple_fragment_layout, container, false);
 			int i = getArguments().getInt(ARG_SIMPLE_IMAGE_HANDLE_NUMBER);
+			
 			switch (i) {
 			case 0:
 				
