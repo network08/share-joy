@@ -7,7 +7,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -23,8 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+import cn.com.swpu.network08.MainNavigatePage;
+import cn.com.swpu.network08.MyApplication;
 import cn.com.swpu.network08.R;
-import cn.com.swpu.network08.util.ImageUtil;
+import cn.com.swpu.network08.util.ImageDlgPropHashGenerator;
 
 /**
  * @author franklin.li
@@ -37,8 +38,8 @@ public class ImageSimpleHandlePage extends Activity {
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private static final String[] IMG_HANDLER_NAMES = {"色调、色相、亮度处理","加入定位信息","模糊效果"};
-
+	private static final String[] IMG_HANDLER_NAMES = {"加入定位信息", "保存", "返回主页"};
+	private static Bitmap sourceBitmap;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -176,30 +177,30 @@ public class ImageSimpleHandlePage extends Activity {
 	}
 
 	/**
-	 * Fragment that appears in the "content_frame", shows a planet
+	 * Fragment that appears in the "content_frame", shows the accepted photo
 	 */
 	public static class ImageFragment extends Fragment {
 		public static final String ARG_SIMPLE_IMAGE_HANDLE_NUMBER = "handle_number";
-
-		public ImageFragment() {
-			// Empty constructor required for fragment subclasses
-		}
-
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.image_simple_fragment_layout, container, false);
+			ImageView iv = (ImageView) rootView.findViewById(R.id.simple_fragment_image_view);
 			int i = getArguments().getInt(ARG_SIMPLE_IMAGE_HANDLE_NUMBER);
-			
+			if(sourceBitmap == null){
+				startActivityForResult(new Intent(Intent.ACTION_PICK, 
+						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), MyApplication.PIC_OPTION);
+			}
+			iv.setImageBitmap(sourceBitmap);
 			switch (i) {
 			case 0:
-				
+				//TODO:加入定位信息的水印图片
 				break;
 			case 1:
-				Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.splash).copy(Bitmap.Config.ARGB_8888, true);
-				((ImageView) rootView.findViewById(R.id.simple_fragment_image_view))
-					.setImageBitmap(ImageUtil.drawText(bitmap, "文字添加测试", bitmap.getWidth()/2, bitmap.getHeight()/2));
-
+				//TODO:存数据库
+				break;
+			case 2:
+				startActivity(new Intent(getActivity(), MainNavigatePage.class));
 			default:
 				break;
 			}
@@ -208,5 +209,25 @@ public class ImageSimpleHandlePage extends Activity {
 			getActivity().setTitle(IMG_HANDLER_NAMES[i]);
 			return rootView;
 		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == Activity.RESULT_OK && null != data){
+				Bundle bundle=data.getExtras();
+				if (bundle!=null) {
+					sourceBitmap = (Bitmap) bundle.get("data");
+					String fingerPrint = ImageDlgPropHashGenerator.generatorSimpleImageDlgPropHash(sourceBitmap);
+					Toast.makeText(ImageSimpleHandlePage.this, fingerPrint, Toast.LENGTH_LONG).show();
+				}
+		}else{
+			Toast.makeText(ImageSimpleHandlePage.this, "获取图片失败", Toast.LENGTH_LONG).show();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		sourceBitmap = null;
+		super.onStop();
 	}
 }

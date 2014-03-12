@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import cn.com.swpu.network08.R;
 import cn.com.swpu.network08.db.ImageSqliteService;
 import cn.com.swpu.network08.model.Image;
-import cn.com.swpu.network08.model.User;
 import cn.com.swpu.network08.util.ImageUtil;
 /**
  * 
@@ -103,18 +102,5 @@ public class MeFragment extends Fragment implements OnClickListener{
 				myImgBtn.setImageBitmap(bm);
 			}
 		}
-	}
-
-	private User getUserDataFromUI(){  
-		User user = new User(); 
-		user.setEmail(emailEt.getText().toString());
-		user.setName(nameEt.getText().toString());
-		user.setPhone(phoneEt.getText().toString());
-		return user;
-	}
-	private void setUserDataToUI(User user){
-		emailEt.setText(user.getEmail());
-		nameEt.setText(user.getName());
-		phoneEt.setText(user.getPhone());
 	}
 }

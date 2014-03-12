@@ -16,12 +16,13 @@ public class MyApplication extends Application{
 	private static MyApplication mInstance = null;
 	
 	//map element
-	private static final String bKey = "ZrZ8bKy7y2l9sRkCSdDP6K5X";
+	public static final String bKey = "ZrZ8bKy7y2l9sRkCSdDP6K5X";
 	private BMapManager bMapManager = null;
 	private boolean bKeyRight = true;
 	
 	//other element
-	
+	public static final int CAMERA_OPTION = 1;
+	public static final int PIC_OPTION = 2;
 	
 	@Override
     public void onCreate() {
@@ -82,8 +83,6 @@ public class MyApplication extends Application{
 	public static String getBkey() {
 		return bKey;
 	}
-
-
 
 	// 常用事件监听，用来处理通常的网络错误，授权验证错误等
     static class MyGeneralListener implements MKGeneralListener {

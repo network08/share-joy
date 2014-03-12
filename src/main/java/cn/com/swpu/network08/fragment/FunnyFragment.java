@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
+import cn.com.swpu.network08.MyApplication;
 import cn.com.swpu.network08.R;
 import cn.com.swpu.network08.image.ImageSimpleHandlePage;
 
@@ -24,8 +26,6 @@ import cn.com.swpu.network08.image.ImageSimpleHandlePage;
 public class FunnyFragment extends Fragment implements OnClickListener{
 	private ImageButton  imagePicBtn;
 	private ImageButton  imageCamBtn;
-	private static int CAMERA_OPTION = 1;
-	private static int PIC_OPTION = 2;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,9 +43,9 @@ public class FunnyFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_navi_pic_btn:
-			startActivity(new Intent(getActivity(), ImageSimpleHandlePage.class));
-//			startActivityForResult(new Intent(Intent.ACTION_PICK, 
-//					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), PIC_OPTION);
+//			startActivity(new Intent(getActivity(), ImageSimpleHandlePage.class));
+			startActivityForResult(new Intent(Intent.ACTION_PICK, 
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), MyApplication.PIC_OPTION);
 			break;
 		case R.id.img_navi_cam_btn:
 			startActivity(new Intent(getActivity(), ImageSimpleHandlePage.class));
@@ -61,7 +61,7 @@ public class FunnyFragment extends Fragment implements OnClickListener{
 		super.onActivityResult(requestCode, resultCode, data);
 		Bitmap bitmap = null;
 		if(resultCode == Activity.RESULT_OK && null != data){
-			if (requestCode == PIC_OPTION) {
+			if (requestCode == MyApplication.PIC_OPTION) {
 				Uri selectedImage = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
 				Cursor cursor = getActivity().getContentResolver().query(selectedImage,
@@ -71,13 +71,22 @@ public class FunnyFragment extends Fragment implements OnClickListener{
 				String picturePath = cursor.getString(columnIndex);
 				cursor.close();
 				bitmap = BitmapFactory.decodeFile(picturePath);
-			}else if(requestCode == CAMERA_OPTION) {
-				Bundle bundle=data.getExtras();
+			}else if(requestCode == MyApplication.CAMERA_OPTION) {
+				Bundle bundle = data.getExtras();
 				if (bundle!=null) {
 					bitmap = (Bitmap) bundle.get("data");
 				}
 			}
-			//TODO:将图片推送至图片处理页
+			if(bitmap != null){
+				Bundle bundle = new Bundle();
+				bundle.putParcelable("data", bitmap);
+				Intent intent = new Intent(getActivity(), ImageSimpleHandlePage.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
+				//TODO:将图片推送至图片处理页
+			}else{
+				Toast.makeText(getActivity(), "获取图片失败", Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 }

@@ -2,8 +2,7 @@ package cn.com.swpu.network08.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import android.text.format.Formatter;
+import java.util.Locale;
 
 /**
  * @author xkk

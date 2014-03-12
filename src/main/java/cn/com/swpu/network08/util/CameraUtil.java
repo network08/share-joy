@@ -1,7 +1,5 @@
 package cn.com.swpu.network08.util;
 
-import com.baidu.mapapi.map.i;
-
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

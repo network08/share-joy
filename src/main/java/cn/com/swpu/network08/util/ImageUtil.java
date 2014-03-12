@@ -1,15 +1,11 @@
 package cn.com.swpu.network08.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -48,7 +44,7 @@ public class ImageUtil {
 		}
 		return body;
 	}
-	
+
 	public static Bitmap byte2Bitmap(byte[] bytes){
 		Bitmap bitmap = null;
 		if(bytes != null){
@@ -78,44 +74,6 @@ public class ImageUtil {
 		drawable.draw(canvas);
 		return bitmap;
 
-	}
-
-	public static String SaveBitmap(Bitmap bmp, String name) {
-		File file = new File("mnt/sdcard/picture/");
-		String path = null;
-		if (!file.exists())
-			file.mkdirs();
-		try {
-			path = file.getPath() + "/" + name;
-			FileOutputStream fileOutputStream = new FileOutputStream(path);
-
-			bmp.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-			fileOutputStream.flush();
-			fileOutputStream.close();
-			System.out.println("saveBmp is here");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return path;
-	}
-
-	public static String saveToLocal(Bitmap bm) {
-		String path = "/sdcard/test.jpg";
-		try {
-			FileOutputStream fos = new FileOutputStream(path);
-			bm.compress(CompressFormat.JPEG, 75, fos);
-			fos.flush();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		return path;
 	}
 
 	// 获得圆角图片的方法
@@ -273,11 +231,12 @@ public class ImageUtil {
 	 * @param y
 	 * @return
 	 */
-	public static Bitmap drawText(Bitmap src, String msg, int x, int y) {
+	public static Bitmap drawText(Bitmap src, String msg, int color, int fontSize, int x, int y) {
 		// 另外创建一张图片
 		Canvas canvas = new Canvas(src);
 		Paint paint = new Paint();
-		paint.setColor(Color.RED);
+		paint.setColor(color);
+		paint.setTextSize(fontSize);
 		canvas.drawText(msg, x, y, paint);
 		canvas.save(Canvas.ALL_SAVE_FLAG);
 		canvas.restore();
@@ -510,7 +469,7 @@ public class ImageUtil {
 		int[] pixNvt = new int[width * height];
 		// 先对图象的像素处理成灰度颜色后再取反
 		bmp.getPixels(pixSrc, 0, width, 0, 0, width, height);
-		
+
 		for (row = 0; row < height; row++) {
 			for (col = 0; col < width; col++) {
 				pos = row * width + col;
@@ -986,5 +945,41 @@ public class ImageUtil {
 
 		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 		return bitmap;
+	}
+	
+	/**
+	 * 灰度值计算
+	 * @param pixels 像素
+	 * @return int 灰度值
+	 */
+	public static int rgbToGray(int pixels) {
+		// int _alpha = (pixels >> 24) & 0xFF;
+		int _red = (pixels >> 16) & 0xFF;
+		int _green = (pixels >> 8) & 0xFF;
+		int _blue = (pixels) & 0xFF;
+		return (int) (0.3 * _red + 0.59 * _green + 0.11 * _blue);
+	}
+	
+	/**
+	 * 计算数组的平均值
+	 * @param pixels 数组
+	 * @return int 平均值
+	 */
+	public static int average(int[] arr) {
+		float m = 0;
+		for (int i = 0; i < arr.length; ++i) {
+			m += arr[i];
+		}
+		m = m / arr.length;
+		return (int) m;
+	}
+	
+	/**
+	 * 二进制转为十六进制
+	 * @param int binary
+	 * @return char hex
+	 */
+	public static String binaryToHex(int binary) {
+		return Integer.toHexString(binary);
 	}
 }
