@@ -8,8 +8,8 @@
          space available using match_parent in both dimensions. -->
     <FrameLayout
         android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
     <ListView
         android:id="@+id/left_drawer"
