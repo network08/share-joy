@@ -2,6 +2,7 @@ package cn.com.swpu.network08;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.Toast;
 
 import com.baidu.mapapi.BMapManager;
@@ -20,15 +21,19 @@ public class MyApplication extends Application{
 	private BMapManager bMapManager = null;
 	private boolean bKeyRight = true;
 	
-	//other element
+	//image element
 	public static final int CAMERA_OPTION = 1;
 	public static final int PIC_OPTION = 2;
+	private Bitmap bitmap = null;
+	
+	//other element
+	
 	
 	@Override
     public void onCreate() {
 	    super.onCreate();
 		mInstance = this;
-		//initMapManager(this);
+		initMapManager(this);
 	}
 	
 	public static MyApplication getInstance() {
@@ -83,6 +88,26 @@ public class MyApplication extends Application{
 	public static String getBkey() {
 		return bKey;
 	}
+
+	/**
+	 * @return the bitmap
+	 */
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+	
+	public void cleanBitmapCache(){
+		bitmap = null;
+	}
+	
+	/**
+	 * @param bitmap the bitmap to set
+	 */
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
+	}
+
+
 
 	// 常用事件监听，用来处理通常的网络错误，授权验证错误等
     static class MyGeneralListener implements MKGeneralListener {

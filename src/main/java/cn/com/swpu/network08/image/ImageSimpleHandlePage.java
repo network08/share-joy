@@ -1,9 +1,11 @@
 package cn.com.swpu.network08.image;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +28,6 @@ import android.widget.Toast;
 import cn.com.swpu.network08.MainNavigatePage;
 import cn.com.swpu.network08.MyApplication;
 import cn.com.swpu.network08.R;
-import cn.com.swpu.network08.util.ImageDlgPropHashGenerator;
 
 /**
  * @author franklin.li
@@ -39,12 +41,10 @@ public class ImageSimpleHandlePage extends Activity {
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private static final String[] IMG_HANDLER_NAMES = {"加入定位信息", "保存", "返回主页"};
-	private static Bitmap sourceBitmap;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.image_simple_handle_layout);
-
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -187,48 +187,65 @@ public class ImageSimpleHandlePage extends Activity {
 			View rootView = inflater.inflate(R.layout.image_simple_fragment_layout, container, false);
 			ImageView iv = (ImageView) rootView.findViewById(R.id.simple_fragment_image_view);
 			int i = getArguments().getInt(ARG_SIMPLE_IMAGE_HANDLE_NUMBER);
-			if(sourceBitmap == null){
+			Bitmap bitmap = MyApplication.getInstance().getBitmap();
+			if(bitmap == null){
 				Intent intent = new Intent(getActivity(), MainNavigatePage.class);
 				intent.putExtra("index", 2);
 				startActivity(intent);
+			}else{
+				iv.setImageBitmap(bitmap);
+				switch (i) {
+				case 0:
+					//TODO:加入定位信息的水印图片
+					break;
+				case 1:
+					//TODO:存数据库
+					break;
+				case 2:
+					startActivity(new Intent(getActivity(), MainNavigatePage.class));
+				default:
+					break;
+				}
+				getActivity().setTitle(IMG_HANDLER_NAMES[i]);
 			}
-			iv.setImageBitmap(sourceBitmap);
-			switch (i) {
-			case 0:
-				//TODO:加入定位信息的水印图片
-				break;
-			case 1:
-				//TODO:存数据库
-				break;
-			case 2:
-				startActivity(new Intent(getActivity(), MainNavigatePage.class));
-			default:
-				break;
-			}
-
-			//TODO:装载处理以后的图片
-			getActivity().setTitle(IMG_HANDLER_NAMES[i]);
 			return rootView;
 		}
 	}
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if(resultCode == Activity.RESULT_OK && null != data){
-				Bundle bundle=data.getExtras();
-				if (bundle!=null) {
-					sourceBitmap = (Bitmap) bundle.get("data");
-					String fingerPrint = ImageDlgPropHashGenerator.generatorSimpleImageDlgPropHash(sourceBitmap);
-					Toast.makeText(ImageSimpleHandlePage.this, fingerPrint, Toast.LENGTH_LONG).show();
-				}
-		}else{
-			Toast.makeText(ImageSimpleHandlePage.this, "获取图片失败", Toast.LENGTH_LONG).show();
-		}
-	}
+	@Override  
+	public boolean onKeyDown(int keyCode, KeyEvent event){  
+		if (keyCode == KeyEvent.KEYCODE_BACK ){  
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+			alertDialog.setTitle("是否保存图片");
+			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "是", listener);
+			alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "否", listener);
+			alertDialog.show();  
+		}  
+		return false;  
+	}  
+
+	DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener(){  
+		public void onClick(DialogInterface dialog, int which){  
+			switch (which){  
+			case AlertDialog.BUTTON_POSITIVE:
+				//TODO:保存图片
+				break;  
+			case AlertDialog.BUTTON_NEGATIVE: 
+				break;  
+			default:  
+				break;  
+			}
+			finish();
+		}  
+	};    
 
 	@Override
 	protected void onStop() {
-		sourceBitmap = null;
+		MyApplication.getInstance().cleanBitmapCache();;
 		super.onStop();
+	}
+	@Override
+	protected void onDestroy() {
+		MyApplication.getInstance().cleanBitmapCache();;
+		super.onDestroy();
 	}
 }

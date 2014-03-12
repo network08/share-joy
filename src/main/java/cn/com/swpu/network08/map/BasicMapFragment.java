@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 import cn.com.swpu.network08.MyApplication;
 import cn.com.swpu.network08.R;
 
@@ -15,6 +16,8 @@ import com.baidu.mapapi.map.MKMapViewListener;
 import com.baidu.mapapi.map.MapController;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.PopupClickListener;
+import com.baidu.mapapi.map.PopupOverlay;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 
 /**
@@ -34,6 +37,9 @@ public class BasicMapFragment extends Fragment implements OnClickListener{
 	 *  MKMapViewListener 用于处理地图事件回调
 	 */
 	MKMapViewListener basicMapListener = null;
+	
+	private PopupOverlay myPopupOverlay  = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		MyApplication app = (MyApplication)getActivity().getApplication(); 
@@ -52,52 +58,38 @@ public class BasicMapFragment extends Fragment implements OnClickListener{
 		basicMapController.enableClick(true);
 		//设置地图缩放级别
 		basicMapController.setZoom(12);
-		basicMapController.setCenter(new GeoPoint((int)(30.827* 1E6), (int)(104.189* 1E6)));//swpu
+		GeoPoint gp = new GeoPoint((int)(30.827* 1E6), (int)(104.189* 1E6));//swpu
+		basicMapController.setCenter(gp);
+		myPopupOverlay = new PopupOverlay(basicMapView, new PopupClickListener() {
+			@Override
+			public void onClickedPopup(int arg0) {
+			}
+		});
+		View viewCache = LayoutInflater.from(getActivity()).inflate(R.layout.basic_map_pop_layout, null);
+		TextView popText = ((TextView)viewCache.findViewById(R.id.location_tips));
+		popText.setText("母校");
+		myPopupOverlay.showPopup(getBitmapFromView(popText), gp, 10);
 		basicMapListener = new MKMapViewListener() {
 			@Override
 			public void onMapMoveFinish() {
-				/**
-				 * 在此处理地图移动完成回调
-				 * 缩放，平移等操作完成后，此回调被触发
-				 */
 			}
 
 			@Override
 			public void onClickMapPoi(MapPoi mapPoiInfo) {
-				/**
-				 * 在此处理底图poi点击事件
-				 * 显示底图poi名称并移动至该点
-				 * 设置过： basicMapController.enableClick(true); 时，此回调才能被触发
-				 * 
-				 */
-				String title = "";
 				if (mapPoiInfo != null){
-					title = mapPoiInfo.strText;
-					showToast(title);
 					basicMapController.animateTo(mapPoiInfo.geoPt);
 				}
 			}
 
 			@Override
 			public void onGetCurrentMap(Bitmap b) {
-				/**
-				 *  当调用过 basicMapView.getCurrentMap()后，此回调会被触发
-				 *  可在此保存截图至存储设备
-				 */
 			}
 
 			@Override
 			public void onMapAnimationFinish() {
-				/**
-				 *  地图完成带动画的操作（如: animationTo()）后，此回调被触发
-				 */
 			}
-			/**
-			 * 在此处理地图载完成事件 
-			 */
 			@Override
 			public void onMapLoadFinish() {
-				showToast("地图加载完成");
 			}
 		};
 		basicMapView.regMapViewListener(MyApplication.getInstance().getbMapManager(), basicMapListener);
@@ -105,7 +97,6 @@ public class BasicMapFragment extends Fragment implements OnClickListener{
 	}
 	@Override
 	public void onClick(View arg0) {
-
 	}
 
 	@Override
@@ -125,8 +116,11 @@ public class BasicMapFragment extends Fragment implements OnClickListener{
 		basicMapView.destroy();
 		super.onDestroy();
 	}
-	
-	private void showToast(String content){
-		Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+	public static Bitmap getBitmapFromView(View view) {
+		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
 	}
 }

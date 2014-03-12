@@ -48,8 +48,7 @@ public class FunnyFragment extends Fragment implements OnClickListener{
 					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), MyApplication.PIC_OPTION);
 			break;
 		case R.id.img_navi_cam_btn:
-			startActivity(new Intent(getActivity(), ImageSimpleHandlePage.class));
-//			startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA_OPTION);
+			startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), MyApplication.CAMERA_OPTION);
 			break;
 		default:
 			break;
@@ -78,14 +77,11 @@ public class FunnyFragment extends Fragment implements OnClickListener{
 				}
 			}
 			if(bitmap != null){
-				Bundle bundle = new Bundle();
-				bundle.putParcelable("data", bitmap);
-				Intent intent = new Intent(getActivity(), ImageSimpleHandlePage.class);
-				intent.putExtras(bundle);
-				startActivity(intent);
-				//TODO:将图片推送至图片处理页
+				MyApplication.getInstance().setBitmap(bitmap);
+				startActivity(new Intent(getActivity(), ImageSimpleHandlePage.class));
 			}else{
-				Toast.makeText(getActivity(), "获取图片失败", Toast.LENGTH_LONG).show();
+				MyApplication.getInstance().cleanBitmapCache();
+				Toast.makeText(getActivity(), "请选择需要处理的图片", Toast.LENGTH_LONG).show();
 			}
 		}
 	}

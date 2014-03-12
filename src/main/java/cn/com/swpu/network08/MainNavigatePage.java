@@ -21,7 +21,7 @@ import android.widget.TabWidget;
 import cn.com.swpu.network08.fragment.FunnyFragment;
 import cn.com.swpu.network08.fragment.HomeFragment;
 import cn.com.swpu.network08.fragment.MeFragment;
-import cn.com.swpu.network08.fragment.MoreFragment;
+import cn.com.swpu.network08.map.BasicMapFragment;
 /**
  * 
  * @author xkk
@@ -36,16 +36,13 @@ public class MainNavigatePage extends FragmentActivity {
 	private int fragmentIndex = 0;
 	@SuppressWarnings("rawtypes")
 	private final Class[] fragments = { HomeFragment.class, FunnyFragment.class,
-		MeFragment.class, MoreFragment.class };
+		MeFragment.class, BasicMapFragment.class };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		initView();
-		if (savedInstanceState != null) {
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		}
 	}
 
 	private void initView() {

@@ -19,7 +19,7 @@ public class WelcomeActivity extends Activity {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(1000);
 					Intent intent = new Intent(WelcomeActivity.this, MainNavigatePage.class);
 			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					getApplicationContext().startActivity(intent);
