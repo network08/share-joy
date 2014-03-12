@@ -188,8 +188,9 @@ public class ImageSimpleHandlePage extends Activity {
 			ImageView iv = (ImageView) rootView.findViewById(R.id.simple_fragment_image_view);
 			int i = getArguments().getInt(ARG_SIMPLE_IMAGE_HANDLE_NUMBER);
 			if(sourceBitmap == null){
-				startActivityForResult(new Intent(Intent.ACTION_PICK, 
-						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), MyApplication.PIC_OPTION);
+				Intent intent = new Intent(getActivity(), MainNavigatePage.class);
+				intent.putExtra("index", 2);
+				startActivity(intent);
 			}
 			iv.setImageBitmap(sourceBitmap);
 			switch (i) {

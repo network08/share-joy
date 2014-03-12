@@ -3,6 +3,7 @@ package cn.com.swpu.network08;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -32,9 +33,10 @@ public class MainNavigatePage extends FragmentActivity {
 	private ViewPager mViewPage;
 	TabsAdapter mTabsAdapter;
 	public static MainNavigatePage instance;
+	private int fragmentIndex = 0;
 	@SuppressWarnings("rawtypes")
 	private final Class[] fragments = { HomeFragment.class, FunnyFragment.class,
-			MeFragment.class, MoreFragment.class };
+		MeFragment.class, MoreFragment.class };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MainNavigatePage extends FragmentActivity {
 				}
 			}
 		});
-		// mTabHost.setCurrentTab(0);
+		mTabHost.setCurrentTab(fragmentIndex);
 	}
 
 	@Override
@@ -193,5 +195,11 @@ public class MainNavigatePage extends FragmentActivity {
 		}
 	}
 
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == RESULT_OK && null != data){
+			fragmentIndex = data.getIntExtra("index", 0);
+		}
+	}
 }
