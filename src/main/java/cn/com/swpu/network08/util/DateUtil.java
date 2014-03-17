@@ -6,12 +6,15 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import android.R.string;
+
 /**
  * 
  * @author franklin.li
  *
  */
 public class DateUtil {
+	public static final String FORMAT_ID = "GMT+8";
 	private static final String FORMAT_DATE = "yyyy-mm-dd HH:mm:ss";
 	public static long getUTC() {
         Calendar calendar = Calendar.getInstance();

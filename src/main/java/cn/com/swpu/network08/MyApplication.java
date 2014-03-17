@@ -1,5 +1,8 @@
 package cn.com.swpu.network08;
 
+import java.net.NetPermission;
+import java.util.Date;
+
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +11,9 @@ import android.widget.Toast;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.map.MKEvent;
+
+import cn.com.swpu.network08.ctrl.DataController;
+import cn.com.swpu.network08.util.DateUtil;
 
 /**
  * @author xkk
@@ -54,6 +60,11 @@ public class MyApplication extends Application{
 	}
 	
 
+	//data init
+	public void initData(Context context){
+		DataController.Initialize(context, DateUtil.getUTC());
+	}
+	
 	/**
 	 * @return the bMapManager
 	 */

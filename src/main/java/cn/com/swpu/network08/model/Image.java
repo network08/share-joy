@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import cn.com.swpu.network08.util.ImageUtil;
+import android.graphics.Bitmap;
+
 /**
  * @author xkk
  *
@@ -61,6 +64,10 @@ public class Image {
 		SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATE); 
 		String strDate = formatter.format(date);
 		return strDate;
+	}
+	
+	public Bitmap GetImage() {
+		return ImageUtil.byte2Bitmap(this.image);
 	}
 
 }

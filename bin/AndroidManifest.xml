@@ -8,6 +8,7 @@
     <uses-sdk
         android:minSdkVersion="14"
         tools:ignore="UsesMinSdkAttributes" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
 
     <application
         android:name=".MyApplication"

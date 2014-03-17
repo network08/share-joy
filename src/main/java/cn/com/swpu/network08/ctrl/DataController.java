@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import cn.com.swpu.network08.db.ImageSqliteService;
 import cn.com.swpu.network08.model.Image;
 
@@ -13,7 +14,7 @@ import cn.com.swpu.network08.model.Image;
  *
  */
 public class DataController {
-	private List<Image> mHistory = null;
+	private List<String> mHistoryUris = null;
 	private int mCurIndex;
 	private ImageSqliteService mImageReader = null;
 	
@@ -31,30 +32,41 @@ public class DataController {
 	
 	private DataController(Context context){
 		mCurIndex = 0;
-		mHistory = new ArrayList<Image>();
+		mHistoryUris = new ArrayList<String>();
 		mImageReader = new ImageSqliteService(context);
 	}
 	
 	
 	public boolean LoadHistory(long deadline){
 		
-		mHistory.clear();
-		mHistory = mImageReader.read(deadline);
-		
+		mHistoryUris.clear();
+		mHistoryUris = mImageReader.read(deadline);
+		if (mHistoryUris.size() == 0){
+			//读取sd卡测试图片，存入数据库
+			
+		}
 		return true;
 	}
 	
-	public Image GetBefore(){
+	public Image GetByNameUri(String nameUri){
+		return mImageReader.read(ImageSqliteService.QUERY_BY_NAME, new String[]{nameUri});
+	}
+	
+	public boolean HasNext(){
+		return mCurIndex == (mHistoryUris.size() - 1);
+		}
+	
+	public String GetBefore(){
 		if(mCurIndex > 0){
 			--mCurIndex;	
 		}
-		return mHistory.get(mCurIndex);
+		return mHistoryUris.get(mCurIndex);
 	}
 	
-	public Image GetAfter(){
-		if (mCurIndex < (mHistory.size() - 1)){
+	public String GetAfter(){
+		if (mCurIndex < (mHistoryUris.size() - 1)){
 			++mCurIndex;
 		}
-		return mHistory.get(mCurIndex);
+		return mHistoryUris.get(mCurIndex);
 	}
 }

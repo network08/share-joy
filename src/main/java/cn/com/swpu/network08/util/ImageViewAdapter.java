@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import cn.com.swpu.network08.R;
+import cn.com.swpu.network08.ctrl.DataController;
+import cn.com.swpu.network08.model.Image;
 
 /**
  * 
@@ -168,9 +170,10 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 	 */
 	private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
 		try {
-			for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+			for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount && DataController.Data().HasNext(); i++) {
 //				String imageUrl = Images.imageThumbUrls[i];
-				String imageName = null;//TODO:从数据库查出图片的名称列表，进行加载。
+				//String imageName = null;//TODO:从数据库查出图片的名称列表，进行加载。
+				String imageName = DataController.Data().GetAfter();
 				Bitmap bitmap = getBitmapFromMemoryCache(imageName);
 				if (bitmap == null) {
 					BitmapWorkerTask task = new BitmapWorkerTask();
@@ -234,7 +237,8 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 			Bitmap bitmap = null;
 			try {
 				//TODO: 根据名称查询 或者根据时间anyway
-				
+				Image img = DataController.Data().GetByNameUri(name);
+				bitmap = img.GetImage();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
