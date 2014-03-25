@@ -64,4 +64,8 @@
     <string name="drawer_close">关闭图片处理菜单</string>
     <string name="action_websearch">搜索</string>
     <string name="app_not_available">找不到应用</string>
+    
+    <string name="border_top">Border Top</string>
+    <string name="border_bottom">Border Bottom</string>
+    <string name="image_url">Image Url</string>
 </resources>

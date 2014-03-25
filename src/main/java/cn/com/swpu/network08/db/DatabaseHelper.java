@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public static final String KEY_NAME = "name";
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_PHONE = "phone";
-	public static final String KEY_IMAGE = "image";
+	public static final String KEY_IMAGE = "data";
 	public static final String KEY_CODE = "code";
 	public static final String KEY_DATE = "date";
 	
@@ -36,9 +36,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		String createTableImage = "Create table " + TABLE_IMAGE + 
 				"(" + KEY_ID + " integer primary key autoincrement," 
 				+ KEY_NAME + " text,"
-//				+ KEY_CODE + " text,"
+
 				+ KEY_IMAGE + " BLOB,"
-				+ KEY_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+				+ KEY_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP"
 				+ " );";
 		db.execSQL(createTableUser);
 		db.execSQL(createTableImage);
