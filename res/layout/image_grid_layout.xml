@@ -1,17 +1,39 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<cn.com.swpu.network08.util.ImageScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
-	
-    <GridView 
-        android:id="@+id/image_grid_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:orientation="vertical" >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="90dip"
-        android:stretchMode="columnWidth"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dip"
-        android:gravity="center"
-        ></GridView>
-    
-</LinearLayout>
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/first_column"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/second_column"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/third_column"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </LinearLayout>
+
+</cn.com.swpu.network08.util.ImageScrollView>

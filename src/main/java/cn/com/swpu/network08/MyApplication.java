@@ -40,6 +40,7 @@ public class MyApplication extends Application{
 	    super.onCreate();
 		mInstance = this;
 		initMapManager(this);
+		initData(this);
 	}
 	
 	public static MyApplication getInstance() {
@@ -62,7 +63,7 @@ public class MyApplication extends Application{
 
 	//data init
 	public void initData(Context context){
-		DataController.Initialize(context, DateUtil.getUTC());
+		DataController.Initialize(MyApplication.getInstance().getApplicationContext(), DateUtil.getUTC());
 	}
 	
 	/**

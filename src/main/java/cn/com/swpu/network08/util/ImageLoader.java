@@ -1,5 +1,7 @@
 package cn.com.swpu.network08.util;
 
+import java.io.ByteArrayOutputStream;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.LruCache;
@@ -92,4 +94,32 @@ public class ImageLoader {
 		return BitmapFactory.decodeFile(pathName, options);
 	}
 
+	public static Bitmap decodeSampledBitmapFromResource(byte[] data, int reqWidth){
+		Bitmap bitmap = null;
+		BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // 为true里只读图片的信息，如果长宽，返回的bitmap为null  
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;  
+        options.inDither = false;  
+        BitmapFactory.decodeByteArray(data, 0, data.length,
+				options);
+		// 调用上面定义的方法计算inSampleSize值
+		options.inSampleSize = calculateInSampleSize(options, reqWidth);
+		// 使用获取到的inSampleSize值再次解析图片
+		options.inJustDecodeBounds = false;
+		try {
+			int len = data.length;
+			bitmap = BitmapFactory.decodeByteArray(data, 0, data.length,
+					options);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos); 
+	        byte[] buffer = baos.toByteArray();  
+	        options = null;
+	        len = buffer.length;
+	        bitmap =  BitmapFactory.decodeByteArray(buffer, 0, buffer.length); 
+		} catch (OutOfMemoryError e) {
+			System.gc();
+			bitmap = null;
+		}
+		return bitmap;
+	}
 }

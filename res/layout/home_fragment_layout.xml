@@ -1,36 +1,9 @@
-<cn.com.swpu.network08.util.ImageScrolView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/my_scroll_view"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:id="@+id/first_column"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/second_column"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/third_column"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </LinearLayout>
-
-</cn.com.swpu.network08.util.ImageScrolView>
+</LinearLayout>

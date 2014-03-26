@@ -192,7 +192,10 @@ public class ImageScrollView extends ScrollView implements OnTouchListener{
 			for (int i = startIndex; i < endIndex; i++) {
 				LoadImageTask task = new LoadImageTask();
 				taskCollection.add(task);
-				task.execute(DataController.Data().GetBefore());
+				task.execute(DataController.Data().getCurrNameUri());
+				if (!DataController.Data().isFirst()){
+					DataController.Data().moveToBefore();	
+				}
 			}
 			page++;
 		} else {
@@ -299,8 +302,11 @@ public class ImageScrollView extends ScrollView implements OnTouchListener{
 			Bitmap bitmap = null;
 			
 			Image imgData = DataController.Data().GetByNameUri(imageUrl);
-			if (null != imgData){
-				bitmap = imgData.GetImage();	
+			if (null != imgData) {
+				bitmap = ImageLoader.decodeSampledBitmapFromResource(imgData.getImage(), columnWidth);
+				if (null != bitmap){
+					imageLoader.addBitmapToMemoryCache(imageUrl, bitmap);	
+				}
 			}
 			return bitmap;
 		}

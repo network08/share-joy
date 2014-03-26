@@ -89,6 +89,7 @@ public class DataController {
 			}
 			mHistoryUris = mImageReader.read(deadline);
 		}
+		mCurIndex = mHistoryUris.size() - 1;
 		return true;
 	}
 	
@@ -100,22 +101,27 @@ public class DataController {
 		return mImageReader.read(ImageSqliteService.QUERY_BY_NAME, new String[]{nameUri});
 	}
 	
-	public boolean HasNext(){
+	public boolean isLast(){
 		return mCurIndex == (mHistoryUris.size() - 1);
 		}
+	public boolean isFirst(){
+		return mCurIndex == 0;
+	}
 	
-	public String GetBefore(){
-		if(mCurIndex > 0){
-			--mCurIndex;	
-		}
+	public String getCurrNameUri(){
 		return mHistoryUris.get(mCurIndex);
 	}
 	
-	public String GetAfter(){
+	public void moveToBefore(){
+		if(mCurIndex > 0){
+			--mCurIndex;	
+		}
+	}
+	
+	public void moveToAfter(){
 		if (mCurIndex < (mHistoryUris.size() - 1)){
 			++mCurIndex;
 		}
-		return mHistoryUris.get(mCurIndex);
 	}
 	
 	private Bitmap getDiskBitmap(String pathString)  

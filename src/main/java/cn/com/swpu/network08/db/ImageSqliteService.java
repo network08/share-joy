@@ -51,6 +51,9 @@ public class ImageSqliteService {
 				imgUris.add(name);
 			}while(cursor.moveToNext());
 			cursor.close();
+			if (null != db && db.isOpen()){
+				db.close();
+			}
 		}
 		return imgUris;
 	}
