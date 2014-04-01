@@ -29,20 +29,14 @@ import cn.com.swpu.network08.dto.ImageCacheBean;
  */
 public class ImageUtil {
 	public static byte[] BitMap2Byte(Bitmap bitmap){
-		byte[] body = null;
-		if(bitmap != null){
-			int size = bitmap.getWidth() * bitmap.getHeight() * 4; 
-			ByteArrayOutputStream baos = new ByteArrayOutputStream(size);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-			body = baos.toByteArray();
-			try {
-				baos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return body;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();  
+        try {  
+        	bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);  
+            bos.close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+        return bos.toByteArray();  
 	}
 
 	public static Bitmap byte2Bitmap(byte[] bytes){

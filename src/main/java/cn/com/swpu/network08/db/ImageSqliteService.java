@@ -45,6 +45,7 @@ public class ImageSqliteService {
 	public List<String> read(long deadline){
 		List<String> imgUris = new ArrayList<String>();
 		Cursor cursor = QueryData(deadline);
+		int count = cursor.getCount();
 		if (null != cursor && cursor.moveToFirst()){
 			do{
 				String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.KEY_NAME));

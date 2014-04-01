@@ -24,10 +24,11 @@ public class DataController {
 	private List<String> mHistoryUris = null;
 	private int mCurIndex;
 	private ImageSqliteService mImageReader = null;
-	
+	private boolean hasChanged = false;
 	private static DataController mInstance = null;
 	
 	public static boolean Initialize(Context context, long deadline){
+		//context.deleteDatabase(DatabaseHelper.DB_NAME);
 		mInstance = new DataController(context);
 		mInstance.LoadHistory(deadline);
 		return true;
@@ -93,12 +94,36 @@ public class DataController {
 		return true;
 	}
 	
+	public boolean checkAndReload() {
+		if (hasChanged){
+			mCurIndex = mHistoryUris.size() - 1;
+			hasChanged = false;
+			return true;
+		}
+		return false;
+	}
+	
 	public int Size(){
 		return mHistoryUris.size();
+	}
+	
+	public boolean InsertImage(Image img){
+		long ret = mImageReader.insert(img);
+		if (ret == 0){
+			Log.e("DB", "insert faild, ret = " + String.valueOf(ret));
+			return false;
+		}
+		mHistoryUris.add(img.getName());
+		hasChanged = true;
+		return true;
 	}
 
 	public Image GetByNameUri(String nameUri){
 		return mImageReader.read(ImageSqliteService.QUERY_BY_NAME, new String[]{nameUri});
+	}
+	
+	public void reset(){
+		mCurIndex = mHistoryUris.size() - 1;
 	}
 	
 	public boolean isLast(){

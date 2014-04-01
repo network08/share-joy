@@ -145,6 +145,7 @@ public class ImageScrollView extends ScrollView implements OnTouchListener{
 		imageLoader = ImageLoader.getInstance();
 		taskCollection = new HashSet<LoadImageTask>();
 		setOnTouchListener(this);
+		DataController.Data().reset();
 	}
 
 	/**

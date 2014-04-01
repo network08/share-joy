@@ -1,5 +1,7 @@
 package cn.com.swpu.network08.image;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -28,6 +30,9 @@ import android.widget.Toast;
 import cn.com.swpu.network08.MainNavigatePage;
 import cn.com.swpu.network08.MyApplication;
 import cn.com.swpu.network08.R;
+import cn.com.swpu.network08.ctrl.DataController;
+import cn.com.swpu.network08.model.Image;
+import cn.com.swpu.network08.util.ImageUtil;
 
 /**
  * @author franklin.li
@@ -39,6 +44,8 @@ public class ImageSimpleHandlePage extends Activity {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private static final String[] IMG_HANDLER_NAMES = {"加入定位信息", "保存", "返回主页"};
+	private static Image	mImg = new Image();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -187,6 +194,10 @@ public class ImageSimpleHandlePage extends Activity {
 					break;
 				case 1:
 					//TODO:存数据库
+					mImg.setImage(ImageUtil.BitMap2Byte(bitmap));
+					mImg.setDate(new Date());
+					mImg.setName("default" + (new Date()).toString());
+					mImg.setId("IDtest");
 					break;
 				case 2:
 					startActivity(new Intent(getActivity(), MainNavigatePage.class));
@@ -197,6 +208,16 @@ public class ImageSimpleHandlePage extends Activity {
 			return rootView;
 		}
 	}
+	
+	private void Save(){
+		boolean bInsert = DataController.Data().InsertImage(mImg);
+		if (bInsert){
+			Toast.makeText(this, "insert success", Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(this, "insert faild", Toast.LENGTH_LONG).show();
+		}
+	}
+	
 	@Override  
 	public boolean onKeyDown(int keyCode, KeyEvent event){  
 		if (keyCode == KeyEvent.KEYCODE_BACK ){  
@@ -204,7 +225,7 @@ public class ImageSimpleHandlePage extends Activity {
 			alertDialog.setTitle("是否保存图片");
 			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "是", listener);
 			alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "否", listener);
-			alertDialog.show();  
+			alertDialog.show();
 		}  
 		return false;  
 	}  
@@ -214,6 +235,7 @@ public class ImageSimpleHandlePage extends Activity {
 			switch (which){  
 			case AlertDialog.BUTTON_POSITIVE:
 				//TODO:保存图片
+				Save();
 				break;  
 			case AlertDialog.BUTTON_NEGATIVE: 
 				break;  

@@ -170,6 +170,7 @@ public class ImageViewAdapter extends ArrayAdapter<String> implements OnScrollLi
 	 */
 	private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
 		try {
+			DataController.Data().reset();
 			for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount && !DataController.Data().isLast(); i++) {
 //				String imageUrl = Images.imageThumbUrls[i];
 				//String imageName = null;//TODO:从数据库查出图片的名称列表，进行加载。
