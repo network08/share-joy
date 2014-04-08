@@ -28,7 +28,7 @@ public class DataController {
 	private static DataController mInstance = null;
 	
 	public static boolean Initialize(Context context, long deadline){
-		//context.deleteDatabase(DatabaseHelper.DB_NAME);
+		context.deleteDatabase(DatabaseHelper.DB_NAME);
 		mInstance = new DataController(context);
 		mInstance.LoadHistory(deadline);
 		return true;
@@ -46,51 +46,12 @@ public class DataController {
 	
 	
 	public boolean LoadHistory(long deadline){
-		
+
 		mHistoryUris.clear();
 		mHistoryUris = mImageReader.read(deadline);
-		File file = null;
-		File[] files = null;
-		if (mHistoryUris.size() == 0){
-			//读取sd卡测试图片，存入数据库,测试时使用
-			try {
-				file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera/");
-				files = file.listFiles();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-			ArrayList<String> allfile = new ArrayList<String>();
-			for (File f : files){
-				if (f.getName().substring(0, 1).equals(".")){
-					continue;
-				}
-				if (f.isFile() && f.getPath().endsWith(".jpg")){
-					allfile.add(f.getPath());
-					if (allfile.size() > 8){
-						break;
-					}
-				}
-			}
-			int id = 1000;
-			if (allfile.size() > 0) {
-				// 将图片存入数据库
-				for (int i = 0; i < allfile.size(); i++) {
-					Image image = new Image();
-					image.setDate(new Date());
-					image.setId("ID" + String.valueOf(id++));
-					image.setName(allfile.get(i));
-					image.setImage(ImageUtil.BitMap2Byte(getDiskBitmap(allfile
-							.get(i))));
-					long ret = mImageReader.insert(image);
-					if (ret == 0){
-						Log.i("DB", "ret = " + String.valueOf(ret));
-					}
-				}
-			}
-			mHistoryUris = mImageReader.read(deadline);
+		if (mHistoryUris.size() > 0) {
+			mCurIndex = mHistoryUris.size() - 1;
 		}
-		mCurIndex = mHistoryUris.size() - 1;
 		return true;
 	}
 	
@@ -113,7 +74,8 @@ public class DataController {
 			Log.e("DB", "insert faild, ret = " + String.valueOf(ret));
 			return false;
 		}
-		mHistoryUris.add(img.getName());
+		//mHistoryUris.add(img.getName());
+		mHistoryUris.add(mHistoryUris.size(), img.getName());
 		hasChanged = true;
 		return true;
 	}

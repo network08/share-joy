@@ -126,6 +126,9 @@ public class ImageScrollView extends ScrollView implements OnTouchListener{
 				// 当滚动的最底部，并且当前没有正在下载的任务时，开始加载下一页的图片
 				if (scrollViewHeight + scrollY >= scrollLayout.getHeight()
 						&& taskCollection.isEmpty()) {
+					if (DataController.Data().checkAndReload()){
+						imageScrolView.reload();
+					}
 					imageScrolView.loadMoreImages();
 				}
 				imageScrolView.checkVisibility();
@@ -203,6 +206,21 @@ public class ImageScrollView extends ScrollView implements OnTouchListener{
 			Toast.makeText(getContext(), "已没有更多图片", Toast.LENGTH_SHORT).show();
 		}
 
+	}
+	
+	private void reload(){
+		ImageLoader.getInstance().clearItems();
+		imageViewList.clear();
+		page = 0;
+		scrollViewHeight = getHeight();
+		scrollLayout = getChildAt(0);
+		firstColumn.removeAllViewsInLayout();;
+		secondColumn.removeAllViewsInLayout();;
+		thirdColumn.removeAllViewsInLayout();
+		firstColumnHeight = 0;
+		secondColumnHeight = 0;
+		thirdColumnHeight = 0;
+		columnWidth = firstColumn.getWidth();
 	}
 
 	/**

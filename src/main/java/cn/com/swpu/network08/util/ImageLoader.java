@@ -67,6 +67,10 @@ public class ImageLoader {
 	public Bitmap getBitmapFromMemoryCache(String key) {
 		return mMemoryCache.get(key);
 	}
+	
+	public void clearItems(){
+		mMemoryCache.evictAll();
+	}
 
 	public static int calculateInSampleSize(BitmapFactory.Options options,
 			int reqWidth) {
